@@ -22,9 +22,15 @@ const FriendRequest = ({ request, onConfirm }) => (
 );
 
 // Component to display individual friends
-const Friend = ({ friend, user }) => (
-  <div>
-    <p>
+const Friend = ({ friend, user, onClick }) => (
+  <div
+    onClick={() =>
+      onClick(
+        friend.senderEmail === user.email ? friend.receiverId : friend.senderId
+      )
+    }
+  >
+    <p style={{ cursor: "pointer", marginTop: "10px" }}>
       {friend.senderEmail === user.email
         ? friend.receiverEmail
         : friend.senderEmail}
@@ -162,6 +168,10 @@ const Home = () => {
     }
   };
 
+  const handleFriendClick = (friendId) => {
+    navigate(`/chat/${friendId}`);
+  };
+
   return (
     <div>
       <h1>Home</h1>
@@ -197,7 +207,12 @@ const Home = () => {
         <p>Loading friends...</p>
       ) : friends.length > 0 ? (
         friends.map((friend) => (
-          <Friend key={friend.id} friend={friend} user={user} />
+          <Friend
+            key={friend.id}
+            friend={friend}
+            user={user}
+            onClick={handleFriendClick}
+          />
         ))
       ) : (
         <p>No friends found.</p>
