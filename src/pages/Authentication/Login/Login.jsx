@@ -78,7 +78,7 @@ const Login = () => {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("User logged in successfully");
       setLoading(false);
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       setLoading(false);
       setError(error.message);

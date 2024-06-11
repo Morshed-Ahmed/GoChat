@@ -10,14 +10,6 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAsRXGxrBLTnNHkJGdJIQwqPn-Vip_4IL0",
-//   authDomain: "gochat-6931b.firebaseapp.com",
-//   projectId: "gochat-6931b",
-//   storageBucket: "gochat-6931b.appspot.com",
-//   messagingSenderId: "685096063345",
-//   appId: "1:685096063345:web:246502155e7b400660a6d0",
-// };
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);

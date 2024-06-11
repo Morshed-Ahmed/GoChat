@@ -92,7 +92,7 @@ const Register = () => {
       });
       setLoading(false);
       console.log("User registered successfully");
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       setLoading(false);
       setError(error.message);
