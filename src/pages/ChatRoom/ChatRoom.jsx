@@ -93,7 +93,7 @@ const ChatRoom = () => {
           ...doc.data(),
         }));
         setMessages(msgs);
-        console.log(msgs);
+        // console.log(msgs);
       });
 
       return () => unsubscribe();
