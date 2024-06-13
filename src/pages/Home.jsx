@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAuthState from "../hooks/firebaseHook";
 import {
   addDoc,
@@ -10,10 +10,9 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { auth, db } from "../firebase/firebaseConfig";
-import { NavLink, useNavigate } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
-import { CgProfile } from "react-icons/cg";
+import { db } from "../firebase/firebaseConfig";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { IoMdPersonAdd } from "react-icons/io";
 import ProfileDropdown from "../components/ProfileDropdown/ProfileDropdown";
 
