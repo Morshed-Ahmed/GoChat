@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import useAuthState from "../hooks/firebaseHook";
 import {
   addDoc,
@@ -11,7 +11,27 @@ import {
   where,
 } from "firebase/firestore";
 import { auth, db } from "../firebase/firebaseConfig";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
+import { CgProfile } from "react-icons/cg";
+import { IoMdPersonAdd } from "react-icons/io";
+import ProfileDropdown from "../components/ProfileDropdown/ProfileDropdown";
+
+const Container = styled.div`
+  width: 30%;
+  margin: auto;
+  border: 1px solid #dddd;
+  padding: 10px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const HomeNav = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 // Component to display individual friend requests
 const FriendRequest = ({ request, onConfirm }) => (
@@ -157,66 +177,63 @@ const Home = () => {
     }
   }, [user?.uid]);
 
-  // Function to handle user logout
-  const handleLogout = async () => {
-    try {
-      await auth.signOut();
-      console.log("User logged out successfully");
-      navigate("/login");
-    } catch (error) {
-      console.error("Error logging out:", error.message);
-    }
-  };
-
   const handleFriendClick = (friendId) => {
     navigate(`/chat/${friendId}`);
   };
 
   return (
-    <div>
-      <h1>Home</h1>
-      <button onClick={handleLogout}>Logout</button>
-      <p>Email: {user?.email}</p>
-      <p>UID: {user?.uid}</p>
+    <div style={{ background: "#0A171F", color: "white", height: "100vh" }}>
+      <Container>
+        <HomeNav>
+          <h2>GoChat</h2>
+          <div style={{ display: "flex", gap: "19px" }}>
+            <IoMdPersonAdd size={25} />
+            <ProfileDropdown />
+          </div>
+        </HomeNav>
 
-      <input
-        type="email"
-        placeholder="Friend's Email"
-        value={friendEmail}
-        onChange={(e) => setFriendEmail(e.target.value)}
-      />
-      <button onClick={addFriend}>Add Friend</button>
+        <p>Email: {user?.email}</p>
+        <p>UID: {user?.uid}</p>
 
-      <h2>Friend Requests</h2>
-      {loadingRequests ? (
-        <p>Loading friend requests...</p>
-      ) : requests.length > 0 ? (
-        requests.map((request) => (
-          <FriendRequest
-            key={request.id}
-            request={request}
-            onConfirm={confirmFriend}
-          />
-        ))
-      ) : (
-        <p>No friend requests found.</p>
-      )}
+        <input
+          type="email"
+          placeholder="Friend's Email"
+          value={friendEmail}
+          onChange={(e) => setFriendEmail(e.target.value)}
+        />
+        <button onClick={addFriend}>Add Friend</button>
 
-      <h2>Friends</h2>
-      {loadingFriends ? (
-        <p>Loading friends...</p>
-      ) : friends.length > 0 ? (
-        friends.map((friend) => (
-          <Friend
-            key={friend.id}
-            friend={friend}
-            user={user}
-            onClick={handleFriendClick}
-          />
-        ))
-      ) : (
-        <p>No friends found.</p>
-      )}
+        <h2>Friend Requests</h2>
+        {loadingRequests ? (
+          <p>Loading friend requests...</p>
+        ) : requests.length > 0 ? (
+          requests.map((request) => (
+            <FriendRequest
+              key={request.id}
+              request={request}
+              onConfirm={confirmFriend}
+            />
+          ))
+        ) : (
+          <p>No friend requests found.</p>
+        )}
+
+        <h2 style={{ justifyContent: "space-between" }}>Friends</h2>
+        {loadingFriends ? (
+          <p>Loading friends...</p>
+        ) : friends.length > 0 ? (
+          friends.map((friend) => (
+            <Friend
+              key={friend.id}
+              friend={friend}
+              user={user}
+              onClick={handleFriendClick}
+            />
+          ))
+        ) : (
+          <p>No friends found.</p>
+        )}
+      </Container>
     </div>
   );
 };
